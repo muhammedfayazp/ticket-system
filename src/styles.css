@@ -114,3 +114,16 @@ td { padding: 10px; font-size: 14px; border-bottom: 1px solid #1a1f28; }
 .filter-row select { width: auto; }
 
 .login-box { max-width: 400px; margin: 80px auto; }
+.raise-ticket-btn {
+  background: var(--fd-orange);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.raise-ticket-btn:hover {
+  background: var(--fd-orange-dark);
+}

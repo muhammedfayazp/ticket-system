@@ -8,11 +8,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/register" replace />} />
+        <Route path="/" element={<Display />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/display" element={<Display />} />
         <Route path="/staff" element={<Staff />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/display" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
