@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient.js';
 
 function genTokenLabel(n) {
@@ -26,7 +25,6 @@ export default function Register() {
     }
     setLoading(true);
 
-    // Get current count to generate next token number
     const { count } = await supabase
       .from('tickets')
       .select('*', { count: 'exact', head: true });
@@ -56,7 +54,6 @@ export default function Register() {
       return;
     }
 
-    // Count people ahead in queue
     const { count: aheadCount } = await supabase
       .from('tickets')
       .select('*', { count: 'exact', head: true })
@@ -70,12 +67,6 @@ export default function Register() {
     <>
       <div className="topbar">
         <div className="logo">flydubai <span>IT Helpdesk</span></div>
-        <div className="tabs">
-          <Link className="tab active" to="/register">Register</Link>
-          <Link className="tab" to="/display">Display Screen</Link>
-          <Link className="tab" to="/staff">Staff Panel</Link>
-          <Link className="tab" to="/admin">Admin</Link>
-        </div>
       </div>
       <div className="container">
         {result ? (

@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient.js';
 
+const STAFF_PASSWORD = import.meta.env.VITE_STAFF_PASSWORD;
+
 export default function Staff() {
+  const [authed, setAuthed] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginError, setLoginError] = useState('');
+
   const [nowServing, setNowServing] = useState(null);
   const [waiting, setWaiting] = useState([]);
   const [resolved, setResolved] = useState([]);
@@ -21,13 +26,22 @@ export default function Staff() {
   };
 
   useEffect(() => {
+    if (!authed) return;
     fetchData();
     const channel = supabase
       .channel('staff-updates')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tickets' }, fetchData)
       .subscribe();
     return () => supabase.removeChannel(channel);
-  }, []);
+  }, [authed]);
+
+  const handleLogin = () => {
+    if (passwordInput === STAFF_PASSWORD) {
+      setAuthed(true);
+    } else {
+      setLoginError('Incorrect password.');
+    }
+  };
 
   const callNext = async () => {
     if (waiting.length === 0) return;
@@ -45,16 +59,35 @@ export default function Staff() {
     await supabase.from('tickets').update({ status: 'waiting' }).eq('id', nowServing.id);
   };
 
+  if (!authed) {
+    return (
+      <>
+        <div className="topbar">
+          <div className="logo">flydubai <span>IT Helpdesk</span></div>
+        </div>
+        <div className="container">
+          <div className="card login-box">
+            <h2>Staff Login</h2>
+            {loginError && <div style={{ color: '#ff9b9b', marginBottom: '10px' }}>{loginError}</div>}
+            <label>Password</label>
+            <input
+              type="password"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+              placeholder="Enter staff password"
+            />
+            <button className="primary" onClick={handleLogin}>Login</button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="topbar">
         <div className="logo">flydubai <span>IT Helpdesk</span></div>
-        <div className="tabs">
-          <Link className="tab" to="/register">Register</Link>
-          <Link className="tab" to="/display">Display Screen</Link>
-          <Link className="tab active" to="/staff">Staff Panel</Link>
-          <Link className="tab" to="/admin">Admin</Link>
-        </div>
       </div>
       <div className="container">
         {nowServing ? (

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient.js';
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
@@ -33,8 +32,6 @@ export default function Admin() {
   const handleLogin = () => {
     if (passwordInput === ADMIN_PASSWORD) {
       setAuthed(true);
-      // Store auth in sessionStorage equivalent (in-memory only, per security best practice
-      // we do NOT persist this across reloads — re-entering password on refresh is intended)
     } else {
       setLoginError('Incorrect password.');
     }
@@ -57,12 +54,6 @@ export default function Admin() {
       <>
         <div className="topbar">
           <div className="logo">flydubai <span>IT Helpdesk</span></div>
-          <div className="tabs">
-            <Link className="tab" to="/register">Register</Link>
-            <Link className="tab" to="/display">Display Screen</Link>
-            <Link className="tab" to="/staff">Staff Panel</Link>
-            <Link className="tab active" to="/admin">Admin</Link>
-          </div>
         </div>
         <div className="container">
           <div className="card login-box">
@@ -93,12 +84,6 @@ export default function Admin() {
     <>
       <div className="topbar">
         <div className="logo">flydubai <span>IT Helpdesk</span></div>
-        <div className="tabs">
-          <Link className="tab" to="/register">Register</Link>
-          <Link className="tab" to="/display">Display Screen</Link>
-          <Link className="tab" to="/staff">Staff Panel</Link>
-          <Link className="tab active" to="/admin">Admin</Link>
-        </div>
       </div>
       <div className="container">
         <div className="stats-grid">

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient.js';
 
 export default function Display() {
@@ -43,12 +42,6 @@ export default function Display() {
     <>
       <div className="topbar">
         <div className="logo">flydubai <span>IT Helpdesk</span></div>
-        <div className="tabs">
-          <Link className="tab" to="/register">Register</Link>
-          <Link className="tab active" to="/display">Display Screen</Link>
-          <Link className="tab" to="/staff">Staff Panel</Link>
-          <Link className="tab" to="/admin">Admin</Link>
-        </div>
       </div>
       <div className="container">
         <div className="display-grid">
